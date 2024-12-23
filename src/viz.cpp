@@ -78,8 +78,10 @@ void Viz::render()
 
 void Viz::run() 
 {
-    while (this->window.isOpen()) {
+    sf::Clock clock;
+    sf::Time dt_counter = sf::Time::Zero;
 
+    while (this->window.isOpen()) {
         // Event Handling
         sf::Event e;
         while (this->window.pollEvent(e)) {
@@ -117,9 +119,16 @@ void Viz::run()
         }
 
         if (mode == RUN) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(DT));   // TODO: this needs to be place somewhere else b/c there's a lad
-            sim_grid.step();
-        } 
+            sf::Time dt = sf::milliseconds(DT);
+            dt_counter += clock.restart();
+            while (dt_counter >= dt) {
+                sim_grid.step();
+                dt_counter -= dt;
+            } 
+        } else {
+            clock.restart();
+        }
+
         render();
         this->window.display();
     }

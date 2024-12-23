@@ -1,11 +1,6 @@
 #include "grid.hpp"
 
-Grid::Grid(): grid{} 
-{
-    this->size_y = ROWS;
-    this->size_x = COLS;
-    this->population = 0;
-}
+Grid::Grid(): size_y(ROWS), size_x(COLS), grid{}, population(0) {}
 
 std::vector<std::pair<int, int>> Grid::directions = {
     {-1,-1}, {-1,0}, {-1, 1},
@@ -32,11 +27,11 @@ void Grid::step()
 {
     Array2D next_grid  = {};
     int pop = 0;
-    for (int x=0; x<this->size_x; x++) {
-        for (int y=0; y<this->size_y; y++) {
+    for (int x=0; x<size_x; x++) {
+        for (int y=0; y<size_y; y++) {
             bool next_state = false;
             int neighbors = num_neighbors(x, y);
-            if (this->grid[x][y] == 1) {
+            if (grid[x][y] == 1) {
                 // Cases where cell is alive
                 if (neighbors >= 2 && neighbors <= 3) {
                     next_state = true;
@@ -53,7 +48,7 @@ void Grid::step()
         }
     }
     population = pop;
-    this->grid = next_grid;
+    grid = next_grid;
 }
 
 void Grid::toggle_cell(int x, int y) 
