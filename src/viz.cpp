@@ -1,85 +1,5 @@
-#include "main.hpp"
-
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#include "viz.hpp"
 #include <thread>
-
-Grid::Grid(): grid{} 
-{
-    this->size_y = ROWS;
-    this->size_x = COLS;
-    this->population = 0;
-}
-
-std::vector<std::pair<int, int>> Grid::directions = {
-    {-1,-1}, {-1,0}, {-1, 1},
-    {0, -1},          {0, 1},
-    {1, -1}, {1, 0}, {1, 1}
-};
-
-Grid::~Grid() {}
-
-int Grid::num_neighbors(int x, int y) 
-{
-    int num_neighbors = 0;
-    for (const auto &dir : directions) {
-        int new_y = y + dir.second;
-        int new_x = x + dir.first;
-        if (new_x >=0 && new_x < this->size_x && new_y >=0 && new_y < this->size_y) {
-            num_neighbors += grid[new_x][new_y] ? 1 : 0;
-        }
-    }
-    return num_neighbors;
-}
-
-void Grid::step() 
-{
-    Array2D next_grid  = {};
-    int pop = 0;
-    for (int x=0; x<this->size_x; x++) {
-        for (int y=0; y<this->size_y; y++) {
-            bool next_state = false;
-            int neighbors = num_neighbors(x, y);
-            if (this->grid[x][y] == 1) {
-                // Cases where cell is alive
-                if (neighbors >= 2 && neighbors <= 3) {
-                    next_state = true;
-                    pop++;
-                }
-            } else {
-                // Cases where cell is dead
-                if (neighbors == 3) {
-                    next_state = true;
-                    pop++;
-                }
-            }
-            next_grid[x][y] = next_state;
-        }
-    }
-    population = pop;
-    this->grid = next_grid;
-}
-
-void Grid::toggle_cell(int x, int y) 
-{
-    if(grid[x][y]) {
-        grid[x][y] = false;
-        population -= 1;
-    } else {
-        grid[x][y] = true;
-        population += 1;
-    }
-}
-
-void Grid::reset_grid()
-{
-    Array2D new_grid = {};
-    this->grid = new_grid;
-    population = 0;
-}
-
-
-
 
 Viz::Viz(): sim_grid(), mode(EDIT), count_gen(0)
 {
@@ -87,7 +7,8 @@ Viz::Viz(): sim_grid(), mode(EDIT), count_gen(0)
         sf::VideoMode(sim_grid.size_x * CELL_SIZE, sim_grid.size_y * CELL_SIZE), 
         "Conway's Game of Life"
         );
-    if(!font.loadFromFile("futura.ttf")) {
+
+    if(!font.loadFromFile(FONT_PATH)) {
         fprintf(stderr, "Couldn't load font from path.");
         exit(1); 
     }
@@ -172,6 +93,7 @@ void Viz::run()
                     }
                     if (e.key.code == sf::Keyboard::R) {
                         sim_grid.reset_grid();
+                        mode = EDIT;
                     }
                     break;
                 case sf::Event::MouseButtonPressed:
@@ -187,9 +109,8 @@ void Viz::run()
                                 this->sim_grid.toggle_cell(mouse_x / CELL_SIZE, mouse_y / CELL_SIZE);
                             }
                         }
-
-                        
                     }
+                    break;
                 default:
                     break;
             }
@@ -203,10 +124,3 @@ void Viz::run()
         this->window.display();
     }
 }
-
-int main() {
-    Viz v;
-    v.run();
-    return 0;
-}
-

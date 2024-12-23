@@ -1,14 +1,13 @@
 CC = g++
 CFLAGS = -std=c++11 -Wall -g
-SRC = *.cpp
+SRC = ./src/*.cpp
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 TARGET = game_of_life
 
-build: main.cpp
+build: $(SRC)
 	$(CC) $(CFLAGS) -o $(TARGET) $(SRC) $(LIBS)
 
-run: main.cpp
-	$(CC) $(CFLAGS) -o $(TARGET) $(SRC) $(LIBS)
+run: build
 	./$(TARGET)
 
 clean: 
