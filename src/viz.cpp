@@ -92,7 +92,7 @@ void Viz::run()
                     this->window.close();
                     break;
                 case sf::Event::KeyPressed:
-                    if (e.key.code == sf::Keyboard::M) 
+                    if (e.key.code == sf::Keyboard::M || e.key.code == sf::Keyboard::Space) 
                     {
                         // Mode toggle
                         mode = (mode == RUN) ? EDIT : RUN;
