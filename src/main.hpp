@@ -1,14 +1,14 @@
-#include <array>
+#include <vector>
 
 #ifndef CONSTS
 #define CONSTS
 
-const int ROWS = 50;
-const int COLS = 50;
+const int ROWS_Y = 55;
+const int COLS_X = 56;
 const int CELL_SIZE = 16; 
 const int DT = 200; // milliseconds
 
 #endif
 
-using Array2D = std::array<std::array<bool, COLS>, ROWS>;
+using Array2D = std::vector<std::vector<bool>>;
 

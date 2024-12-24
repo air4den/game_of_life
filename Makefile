@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++11 -Wall -g
+CFLAGS = -std=c++11 -Wall -g -fsanitize=address
 SRC = ./src/*.cpp
 LIBS = -lsfml-graphics -lsfml-window -lsfml-system
 TARGET = game_of_life

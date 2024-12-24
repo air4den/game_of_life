@@ -1,4 +1,5 @@
 #include "viz.hpp"
+#include "main.hpp"
 #include <thread>
 
 Viz::Viz(): sim_grid(), mode(EDIT), count_gen(0)
@@ -21,7 +22,7 @@ void Viz::draw_grid()
     // TODO: Rector so that it dynamically adjusts when users changes window size
     sf::RectangleShape line;
     line.setFillColor(sf::Color(100, 100, 100));
-
+    
     // Vertical Lines
     for (int x=0; x<sim_grid.size_x; x++) {
         line.setSize(sf::Vector2f(1, window.getSize().y));
@@ -82,6 +83,7 @@ void Viz::run()
     sf::Time dt_counter = sf::Time::Zero;
 
     while (this->window.isOpen()) {
+        
         // Event Handling
         sf::Event e;
         while (this->window.pollEvent(e)) {
@@ -113,6 +115,15 @@ void Viz::run()
                         }
                     }
                     break;
+                case sf::Event::Resized: 
+                {
+                    int new_size_x = window.getSize().x / CELL_SIZE;
+                    int new_size_y = window.getSize().y / CELL_SIZE;
+                    sim_grid.resize_grid(new_size_x, new_size_y);
+                    sf::FloatRect visibleArea(0, 0, e.size.width, e.size.height);
+                    window.setView(sf::View(visibleArea));
+                    break;
+                }
                 default:
                     break;
             }
@@ -130,6 +141,8 @@ void Viz::run()
         }
 
         render();
+        //printf("Window X-Size: %d\n", window.getSize().x);
+        //printf("Grid size_x  : %d\n", sim_grid.size_x);
         this->window.display();
     }
 }

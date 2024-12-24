@@ -22,6 +22,4 @@ class Viz {
         Viz();
         ~Viz();
         void run();
-        std::tuple<int, int> get_cell_from_mouse();
-
 };

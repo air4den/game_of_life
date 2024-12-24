@@ -1,6 +1,6 @@
 #include "grid.hpp"
 
-Grid::Grid(): size_y(ROWS), size_x(COLS), grid{}, population(0) {}
+Grid::Grid(): size_y(ROWS_Y), size_x(COLS_X), grid(COLS_X, std::vector<bool>(ROWS_Y, false)), population(0) {}
 
 std::vector<std::pair<int, int>> Grid::directions = {
     {-1,-1}, {-1,0}, {-1, 1},
@@ -25,7 +25,7 @@ int Grid::num_neighbors(int x, int y)
 
 void Grid::step() 
 {
-    Array2D next_grid  = {};
+    Array2D next_grid(size_x, std::vector<bool>(size_y, false));
     int pop = 0;
     for (int x=0; x<size_x; x++) {
         for (int y=0; y<size_y; y++) {
@@ -64,7 +64,18 @@ void Grid::toggle_cell(int x, int y)
 
 void Grid::reset_grid()
 {
-    Array2D new_grid = {};
+    Array2D new_grid(size_x, std::vector<bool>(size_y, false));
     grid = new_grid;
     population = 0;
+}
+
+void Grid::resize_grid(int new_x, int new_y)
+{
+    grid.resize(new_x);
+    for (int col=0; col<new_x; col++) {
+        grid[col].resize(new_y, false);
+    }
+    size_x = new_x;
+    size_y = new_y;
+    printf("RESIZING!\n");
 }
