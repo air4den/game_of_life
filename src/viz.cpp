@@ -22,7 +22,7 @@ void Viz::draw_grid()
     // TODO: Rector so that it dynamically adjusts when users changes window size
     sf::RectangleShape line;
     line.setFillColor(sf::Color(100, 100, 100));
-    
+
     // Vertical Lines
     for (int x=0; x<sim_grid.size_x; x++) {
         line.setSize(sf::Vector2f(1, window.getSize().y));
@@ -92,11 +92,21 @@ void Viz::run()
                     this->window.close();
                     break;
                 case sf::Event::KeyPressed:
-                    if (e.key.code == sf::Keyboard::M) {
+                    if (e.key.code == sf::Keyboard::M) 
+                    {
+                        // Mode toggle
                         mode = (mode == RUN) ? EDIT : RUN;
-                    }
-                    if (e.key.code == sf::Keyboard::R) {
+                    } 
+                    else if (e.key.code == sf::Keyboard::R) 
+                    {
+                        // reset
                         sim_grid.reset_grid();
+                        mode = EDIT;
+                    }
+                    else if (e.key.code == sf::Keyboard::Num1)
+                    {
+                        // Gosper Glider Gun
+                        sim_grid.reset_grid_gospergun();
                         mode = EDIT;
                     }
                     break;

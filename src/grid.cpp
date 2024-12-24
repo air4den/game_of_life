@@ -77,5 +77,25 @@ void Grid::resize_grid(int new_x, int new_y)
     }
     size_x = new_x;
     size_y = new_y;
-    printf("RESIZING!\n");
+}
+
+void Grid::reset_grid_gospergun()
+{
+    Array2D new_grid(size_x, std::vector<bool>(size_y, false));
+    std::vector<std::tuple<int, int>> gun_cells = 
+    {
+        {1, 6}, {2, 6}, {1, 7}, {2, 7},
+        {11, 6}, {11, 7}, {11, 8}, {12, 5}, {12, 9}, {13, 4}, {13, 10}, {14, 4}, {14, 10},
+        {15, 7}, {16, 5}, {16, 9}, {17, 6}, {17, 7}, {17, 8}, {18, 7},
+        {21, 4}, {21, 5}, {21, 6}, {22, 4}, {22, 5}, {22, 6}, 
+        {23, 3}, {23, 7}, {25, 2}, {25, 3}, {25, 7}, {25, 8},
+        {35, 4}, {35, 5}, {36, 4}, {36, 5}, 
+    };
+    int x, y;
+    for (const auto &vec : gun_cells) {
+        x = std::get<0>(vec);
+        y = std::get<1>(vec);
+        new_grid[x][y] = true;
+    }
+    grid = new_grid;
 }

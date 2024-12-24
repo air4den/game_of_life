@@ -17,4 +17,5 @@ class Grid {
         void toggle_cell(int x, int y);
         void reset_grid();
         void resize_grid(int new_x, int new_y);
+        void reset_grid_gospergun();
 };
