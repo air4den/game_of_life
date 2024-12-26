@@ -11,7 +11,6 @@ class Viz {
     private:
         Grid sim_grid;
         Viz_mode mode;
-        int count_gen;
         sf::RenderWindow window;
         sf::Font font;
 

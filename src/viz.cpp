@@ -2,7 +2,7 @@
 #include "main.hpp"
 #include <thread>
 
-Viz::Viz(): sim_grid(), mode(EDIT), count_gen(0)
+Viz::Viz(): sim_grid(), mode(EDIT)
 {
     this->window.create(
         sf::VideoMode(sim_grid.size_x * CELL_SIZE, sim_grid.size_y * CELL_SIZE), 
