@@ -2,7 +2,7 @@
 
 Conway's Game of Life is a _classic_ cellular automaton and is turing complete! Watch evolution unfold based on a set of rules. Here is my C++ implementation. 
 
-<img src=images/gosper.gif height=250>
+<img src=images/gosper.gif width=500>
 
 ### Rules
 - Live Cells:
